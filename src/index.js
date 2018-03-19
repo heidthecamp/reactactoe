@@ -31,98 +31,152 @@ function Square(props){
   );
 }
 
-class MiniBoard extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      squares: Array(9).fill(null),
-      xIsNext: true,
-      winner: null,
-    };
-  }
-  handleClick(i) {
-    const squares = this.state.squares.slice();
-    if (calculateMWinner(squares) || squares[i]){
-      return;
-    }
-    squares[i] = this.state.xIsNext ? 'X' : 'O';
-    this.setState({
-      squares: squares,
-      xIsNext: !this.state.xIsNext,
-    })
-  }
-  renderSquare(i) {
-    return(
-      <Square
-        value={this.state.squares[i]}
-        onClick={() => this.handleClick(i)}
-      />
-    );
-  }
+// class MiniBoard extends React.Component {
+//   constructor(props) {
+//     super(props);
+//     this.state = {
+//       squares: Array(9).fill(null),
+//       xIsNext: true,
+//       winner: null,
+//     };
+//   }
+//   handleClick(i) {
+//     const squares = this.state.squares.slice();
+//     if (calculateMWinner(squares) || squares[i]){
+//       return;
+//     }
+//     squares[i] = this.state.xIsNext ? 'X' : 'O';
+//     this.setState({
+//       squares: squares,
+//       xIsNext: !this.state.xIsNext,
+//     })
+//   }
+//   renderSquare(i) {
+//     return(
+//       <Square
+//         value={this.state.squares[i]}
+//         onClick={() => this.handleClick(i)}
+//       />
+//     );
+//   }
+//
+//   render() {
+//     var winner = calculateMWinner(this.state.squares)
+//     if ( winner ){
+//       return <div className="mBoardWinner">{winner}</div>;
+//     }
+//     return (
+//       <div className="mboard">
+//         <table className="MBTable">
+//           <tr>
+//             <td>
+//               {this.renderSquare(0)}
+//             </td>
+//             <td>
+//               {this.renderSquare(1)}
+//             </td>
+//             <td>
+//               {this.renderSquare(2)}
+//             </td>
+//           </tr>
+//           <tr>
+//             <td>
+//               {this.renderSquare(3)}
+//             </td>
+//             <td>
+//               {this.renderSquare(4)}
+//             </td>
+//             <td>
+//               {this.renderSquare(5)}
+//             </td>
+//           </tr>
+//           <tr>
+//             <td>
+//               {this.renderSquare(6)}
+//             </td>
+//             <td>
+//               {this.renderSquare(7)}
+//             </td>
+//             <td>
+//               {this.renderSquare(8)}
+//             </td>
+//           </tr>
+//         </table>
+//       </div>
+//     )
+//   }
+// }
 
-  render() {
-    var winner = calculateMWinner(this.state.squares)
-    if ( winner ){
-      return <div className="mBoardWinner">{winner}</div>;
-    }
-    return (
-      <div className="mboard">
-        <table className="MBTable">
-          <tr>
-            <td>
-              {this.renderSquare(0)}
-            </td>
-            <td>
-              {this.renderSquare(1)}
-            </td>
-            <td>
-              {this.renderSquare(2)}
-            </td>
-          </tr>
-          <tr>
-            <td>
-              {this.renderSquare(3)}
-            </td>
-            <td>
-              {this.renderSquare(4)}
-            </td>
-            <td>
-              {this.renderSquare(5)}
-            </td>
-          </tr>
-          <tr>
-            <td>
-              {this.renderSquare(6)}
-            </td>
-            <td>
-              {this.renderSquare(7)}
-            </td>
-            <td>
-              {this.renderSquare(8)}
-            </td>
-          </tr>
-        </table>
-      </div>
-    )
-  }
-}
 
 class SuperBoard extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      mBoards: Array(9).fill(MiniBoard),
+      squares: Array(9).fill(Array(9).fill(null)),
       xisNext: true,
     }
   }
+  handleClick(i,j) {
+    const squares = this.state.squares.slice().slice();
+    // if (calculateMWinner(squares) || squares[i][j]){
+    //   return;
+    // }
+    squares[i][j] = this.state.xIsNext ? 'X' : 'O';
+    this.setState({
+      squares: squares,
+      xIsNext: !this.state.xIsNext,
+    })
+  }
   renderMiniBoard(i) {
-    return <MiniBoard />
+    return (
+      <table className="MBTable">
+        <tr>
+          <td>
+            {this.renderSquare(i,0)}
+          </td>
+          <td>
+            {this.renderSquare(i,1)}
+          </td>
+          <td>
+            {this.renderSquare(i,2)}
+          </td>
+        </tr>
+        <tr>
+          <td>
+            {this.renderSquare(i,3)}
+          </td>
+          <td>
+            {this.renderSquare(i,4)}
+          </td>
+          <td>
+            {this.renderSquare(i,5)}
+          </td>
+        </tr>
+        <tr>
+          <td>
+            {this.renderSquare(i,6)}
+          </td>
+          <td>
+            {this.renderSquare(i,7)}
+          </td>
+          <td>
+            {this.renderSquare(i,8)}
+          </td>
+        </tr>
+      </table>
+    )
+  }
+  renderSquare(i,j) {
+    return(
+      <Square
+        value={this.state.squares[i][j]}
+        onClick={() => this.handleClick(i,j)}
+      />
+    );
   }
   render() {
-    const status = 'Next player: D';
     return(
       <div>
-        {status}
         <table className="SBTable">
           <tr>
             <td>
