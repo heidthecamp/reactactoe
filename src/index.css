@@ -9,11 +9,11 @@ body {
   font-size: 90px;
 }
 
-.mboard-row:after {
+/*.mboard-row:after {
   clear: both;
   content: "";
   display: table;
-}
+}*/
 
 .status {
   margin-bottom: 10px;
